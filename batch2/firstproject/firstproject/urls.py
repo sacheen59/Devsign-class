@@ -26,6 +26,9 @@ urlpatterns = [
 localhost:8000/todos/add-todo
 localhost:8000/todos/delete-todo
 localhost:8000/firstproject/
+
+localhost:8000/firstproject/
+localhost:8000/firstproject/second-page
 '''
 
 '''

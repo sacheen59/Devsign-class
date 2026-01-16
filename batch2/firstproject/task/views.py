@@ -6,9 +6,17 @@ from django.http import HttpResponse
 # function based views (ui)
 
 def index(request):
-    return HttpResponse("hello we are learning django")
+    
+    return render(request,'task/index.html',{
+        "title": "My first page",
+        "description": "This is my first page description",
+        "page_no": 1,
+    })
 
 def second_index(request):
-    return HttpResponse("this is second page")
+    return render(request,'task/second-page.html')
+
+def third_page(request):
+    return HttpResponse("This is third page")
 
 # class based views (api)
