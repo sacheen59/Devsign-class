@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import TodoTask
 
 # Create your views here.
 
 # function based views (ui)
 
 def index(request):
-    
+
     return render(request,'task/index.html',{
         "title": "My first page",
         "description": "This is my first page description",
@@ -14,7 +15,10 @@ def index(request):
     })
 
 def second_index(request):
-    return render(request,'task/second-page.html')
+    todos = TodoTask.objects.all()
+    return render(request,'task/second-page.html',{
+        'todos': todos
+    })
 
 def third_page(request):
     return HttpResponse("This is third page")

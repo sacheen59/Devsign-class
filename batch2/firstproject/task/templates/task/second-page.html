@@ -6,7 +6,16 @@
     <title>Second page</title>
 </head>
 <body>
-    <h1>This is second page</h1>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. A, ad?</p>
+    <h1>Todo Data</h1>
+    <ul>
+        {% for item in todos %}
+            {% if not item.is_completed %}
+                <li>Incompleted: {{item.title}}</li>
+            {% else %}
+                <li>Completed: {{item.title}}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
 </body>
 </html>
