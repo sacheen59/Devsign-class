@@ -27,7 +27,7 @@
             <td>{{item.category_name}}</td>
             <td>
               <button class="btn btn-primary">Edit</button>
-              <button class="btn btn-danger">Delete</button>
+              <a href="{% url 'delete_category' item.id %}" class="btn btn-danger">Delete</a>
             </td>
           </tr>
           {% endfor %}
