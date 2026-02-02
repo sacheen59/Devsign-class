@@ -6,9 +6,16 @@ from django.http import HttpResponse
 
 def product_page(request):
     products = Product.objects.all()
+    print("product length ===> ",len(products) > 0)
     return render(request, 'product/product-page.html',{
-        'products': products
+        'products': products,
+        "product_length": len(products) > 0
     })
+
+def delete_product(request,product_id):
+    product = Product.objects.get(id=product_id)
+    product.delete()
+    return redirect('product_page')
 
 def get_all_cateogries(request):
     categories = Category.objects.all()

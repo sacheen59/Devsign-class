@@ -1,19 +1,14 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Page</title>
+<!DOCTYPE html>
+{% extends "base.html" %}
 
-    <!-- bootstrap cdn link -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    />
-  </head>
-  <body>
+{% block page_title%}
+Admin || Products
+{% endblock %}
+
+{% block main_content %}
     <div class="container">
-      <h2 class="text-muted text-center my-5">All Products</h2>
+      <h2 class="text-color text-center my-5">All Products</h2>
+      {% if product_length %}
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -50,15 +45,18 @@
             </td>
             <td>
               <button class="btn btn-primary">Edit</button>
-              <button class="btn btn-danger">Delete</button>
+              <a href="{% url 'delete_product' item.id %}" class="btn btn-danger">Delete</a>
             </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+      {% else %}
+      <div class="empty-container">
+        <h1 class="text-color">No Product Found</h1>
+      </div>
+      {% endif %}
     </div>
 
-    <!-- bootstrap js cdn link -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-</html>
+{% endblock %}
+
