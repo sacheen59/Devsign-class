@@ -12,7 +12,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=200)
     product_price = models.DecimalField(max_digits=10, decimal_places=2)
     product_description = models.TextField()
-    product_image = models.CharField(max_length=300)
+    product_image = models.ImageField(upload_to='products', blank=True, null=True)
     in_stock = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

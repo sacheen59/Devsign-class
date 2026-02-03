@@ -6,7 +6,6 @@ from django.http import HttpResponse
 
 def product_page(request):
     products = Product.objects.all()
-    print("product length ===> ",len(products) > 0)
     return render(request, 'product/product-page.html',{
         'products': products,
         "product_length": len(products) > 0
