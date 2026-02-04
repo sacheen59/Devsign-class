@@ -5,5 +5,6 @@ urlpatterns = [
    path('',views.product_page,name='product_page'),
    path('<int:product_id>/',views.delete_product,name='delete_product'),
    path('categories/',views.get_all_cateogries,name='all_categories'),
-   path('delete-category/<int:category_id>/',views.delete_category,name='delete_category')
+   path('delete-category/<int:category_id>/',views.delete_category,name='delete_category'),
+   path('login-form/',views.form_practise, name='login-form')
 ]

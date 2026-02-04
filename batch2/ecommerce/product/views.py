@@ -29,3 +29,11 @@ def delete_category(request,category_id):
 
 # def dynamic_url(request,category_id):
 #     return HttpResponse(f"dynamic url ===> {category_id}")
+
+def form_practise(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        print("email ====> ",email)
+        print("password====> ",password)
+    return render(request,'product/login-form.html')
