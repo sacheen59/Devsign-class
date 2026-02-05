@@ -19,3 +19,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+class LoginPractise(models.Model):
+    email = models.EmailField()
+    password = models.CharField(max_length=30)
+    is_Admin = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.email
