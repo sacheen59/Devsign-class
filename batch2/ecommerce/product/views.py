@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Product,Category,LoginPractise
 from django.http import HttpResponse
-from product.forms import LoginForm
+from product.forms import LoginForm,ProductForm
 
 # Create your views here.
 
@@ -11,6 +11,12 @@ def product_page(request):
         'products': products,
         "product_length": len(products) > 0
     })
+
+def post_product(request):
+    """Method to add/create the product."""
+    
+    form = ProductForm()
+    return render(request,'product/product-form.html',{'form': form})
 
 def delete_product(request,product_id):
     product = Product.objects.get(id=product_id)
@@ -48,6 +54,8 @@ def form_practise(request):
                 password = form.cleaned_data['password'],
                 is_Admin = form.cleaned_data['is_admin']
             )
+        else:
+            print(form.errors)
 
     form = LoginForm()
     return render(request,'product/login-form.html',{'form': form})
