@@ -14,8 +14,13 @@ def product_page(request):
 
 def post_product(request):
     """Method to add/create the product."""
-    
-    form = ProductForm()
+    if request.method == 'POST':
+        form = ProductForm(data=request.POST,files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('product_page')
+    else:
+        form = ProductForm()
     return render(request,'product/product-form.html',{'form': form})
 
 def delete_product(request,product_id):
@@ -56,6 +61,6 @@ def form_practise(request):
             )
         else:
             print(form.errors)
-
-    form = LoginForm()
+    else:
+        form = LoginForm()
     return render(request,'product/login-form.html',{'form': form})

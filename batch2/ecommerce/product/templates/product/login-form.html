@@ -16,7 +16,6 @@ Admin || Forms-basic
             {% csrf_token %}
             <div class="mb-3">
                 {{form.as_p}}
-                {{form.field_name.errors}}
             </div>
            <button type="submit" class="btn btn-primary">submit</button>
         </form>
