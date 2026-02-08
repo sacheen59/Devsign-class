@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from .models import Product,Category,LoginPractise
-from django.http import HttpResponse
 from product.forms import LoginForm,ProductForm
 
 # Create your views here.
