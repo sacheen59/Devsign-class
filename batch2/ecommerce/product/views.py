@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import Product,Category,LoginPractise
-from product.forms import LoginForm,ProductForm
+from product.forms import LoginForm,ProductForm,EditProductForm
 
 # Create your views here.
 
@@ -10,6 +10,7 @@ def product_page(request):
         'products': products,
         "product_length": len(products) > 0
     })
+
 
 def post_product(request):
     """Method to add/create the product."""
@@ -22,16 +23,35 @@ def post_product(request):
         form = ProductForm()
     return render(request,'product/product-form.html',{'form': form})
 
+
+def edit_product(request,product_id):
+    "Method to edit the product data."
+    product = Product.objects.get(id = product_id)
+    if request.method == "POST":
+        form = EditProductForm(data=request.POST,files=request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('product_page')
+    else:
+        form = EditProductForm(instance=product)
+    return render(request, "product/edit-product.html",{'form': form})
+
+
 def delete_product(request,product_id):
     product = Product.objects.get(id=product_id)
     product.delete()
     return redirect('product_page')
+
 
 def get_all_cateogries(request):
     categories = Category.objects.all()
     return render(request, 'product/categories.html',{
         'categories': categories
     })
+
+# post category
+
+# edit category 
 
 def delete_category(request,category_id):
     category = Category.objects.get(id=category_id)

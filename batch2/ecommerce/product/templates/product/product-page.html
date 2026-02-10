@@ -44,7 +44,7 @@ Admin || Products
               {% endif %}
             </td>
             <td>
-              <button class="btn btn-primary">Edit</button>
+              <a href="{% url 'edit_product' item.id %}" class="btn btn-primary">Edit</a>
               <a href="{% url 'delete_product' item.id %}" class="btn btn-danger">Delete</a>
             </td>
           </tr>

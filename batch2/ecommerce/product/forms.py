@@ -25,6 +25,7 @@ class LoginForm(forms.Form):
         return password
 
 class ProductForm(forms.ModelForm):
+    """Product Form for creating the product."""
     # total_price = forms.CharField(max_length=10)
     class Meta:
         model = Product
@@ -48,3 +49,10 @@ class ProductForm(forms.ModelForm):
         if product_name == product_description:
             raise forms.ValidationError("Product name and description cannot be same.")
         return  super().clean()
+
+
+class EditProductForm(forms.ModelForm):
+    """Form to update the product."""
+    class Meta:
+        model = Product
+        exclude = ['category']
