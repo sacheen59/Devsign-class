@@ -8,6 +8,9 @@ Admin || Products
 {% block main_content %}
     <div class="container">
       <h2 class="text-color text-center my-5">All Products</h2>
+      <div class="d-flex justify-content-end my-4">
+        <a href="{% url 'add_product' %}" class="btn btn-primary">Add Product</a>
+      </div>
       {% if product_length %}
       <table class="table table-bordered">
         <thead>

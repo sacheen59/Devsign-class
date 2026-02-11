@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block page_title %}
 Admin || Product Form
@@ -14,7 +15,7 @@ Admin || Product Form
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
-                {{form.as_p}}
+                {{ form|crispy }}
             </div>
            <button type="submit" class="btn btn-primary">submit</button>
         </form>
