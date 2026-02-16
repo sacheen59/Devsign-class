@@ -1,0 +1,61 @@
+<!doctype html>
+{% extends "user-layout.html" %}
+{% load static %}
+
+{% block title %}
+User || Home
+{% endblock %}
+
+{% block main-content %}
+    <!-- carousel start -->
+    <div id="carouselExample" class="carousel slide">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'images/sports.jpg' %}" class="d-block w-100" alt="sports">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/fashion.jpg' %}" class="d-block w-100" alt="fashion">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/technology.jpg' %}" class="d-block w-100" alt="technology">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+    <!-- carousel end  -->
+
+    <!-- Latest product start  -->
+  <section class="my-5 container">
+    <h1 class="text-muted mb-3">Latest Products</h1>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for item in products %}
+  <div class="col">
+    <div class="card">
+      <img src="{{item.product_image.url}}" class="card-img-top" alt="{{item.product_name}}" height="180px">
+      <div class="card-body">
+        <h5 class="card-title">{{item.product_name}}</h5>
+        <h6 class="card-text">Rs. {{item.product_price}}</h6>
+        <p class="card-text">
+          Stock:
+          {% if item.in_stock %}
+          In Stock
+          {% else %}
+          Out of Stock
+          {% endif %}
+        </p>
+        <hr>
+        <a href="#" class="btn btn-warning">View Details</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+  </section>
+{% endblock %}

@@ -2,7 +2,6 @@ from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 from .models import Product,Category,LoginPractise
 from product.forms import LoginForm,ProductForm,EditProductForm
-from django.views import View
 from django.views.generic import ListView,CreateView,DeleteView,UpdateView
 
 
