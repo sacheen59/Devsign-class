@@ -1,0 +1,35 @@
+<!doctype html>
+{% extends "user-layout.html" %}
+
+{% block title %}
+Shop || {{product.product_name}}
+{% endblock %}
+
+{% block main-content %}
+<div class="container">
+    <div class="d-flex justify-content-center align-items-center my-5">
+        <div class="col-md-8">
+            <div class="card mb-3" style="max-width: 80%;">
+  <div class="row g-0 p-2">
+    <div class="col-md-4">
+      <img src="{{product.product_image.url}}" class="img-fluid rounded-start" alt="{{product.product_name}}" style="height: 100%;">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h3 class="card-title">Product Name: {{product.product_name}}</h3>
+        <h5 class="card-text">Product Price: Rs. {{product.product_price}}</h5>
+        <h5 class="card-text">Stock: {% if product.in_stock %} IN Stock {% else %} Out of Stock {% endif %}</h5>
+        <p class="card-text">{{product.product_description}}</p>
+        <p class="card-text"><small class="text-body-secondary">Last updated {{product.updated_at}} ago</small></p>
+        <hr>
+        <a href="#" class="btn btn-warning">Add to Cart</a>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
