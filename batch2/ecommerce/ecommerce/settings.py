@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     'product.apps.ProductConfig',
     'shop.apps.ShopConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -118,6 +119,8 @@ TIME_ZONE = 'Asia/Kathmandu'
 USE_I18N = True
 
 USE_TZ = True
+
+# AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 # Static files (CSS, JavaScript, Images)
