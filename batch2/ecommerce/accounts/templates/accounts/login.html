@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User || Register</title>
+    <title>Login</title>
 
     <!-- bootstrap cdn link  -->
     <link
@@ -16,11 +16,11 @@
     <div class="container my-5">
       <div class="d-flex justify-content-center my-5">
         <div class="col-md-6 shadow p-4">
-          <h1>Registration Form</h1>
+          <h1>Login Form</h1>
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">{{ form|crispy }}</div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Login</button>
           </form>
         </div>
       </div>
