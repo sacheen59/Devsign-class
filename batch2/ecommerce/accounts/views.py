@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from .forms import LoginForm
 from django.contrib.auth import authenticate,login,logout
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -41,3 +42,6 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('home-page')
+
+def dashboard(request):
+    return HttpResponse("This is admin dashboard")

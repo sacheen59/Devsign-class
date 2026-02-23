@@ -3,20 +3,22 @@ from django.urls import reverse_lazy
 from .models import Product,Category,LoginPractise
 from product.forms import LoginForm,ProductForm,EditProductForm
 from django.views.generic import ListView,CreateView,DeleteView,UpdateView
+from django.contrib.auth.decorators import login_required
+from accounts.auth import admin_only
 
 
 # class based views
-class ProductPageView(ListView):
-    """class based views for product page."""
-    model = Product
-    template_name = 'product/product-page.html'
+# class ProductPageView(ListView):
+#     """class based views for product page."""
+#     model = Product
+#     template_name = 'product/product-page.html'
 
-    def get_context_data(self, **kwargs):
-        products = Product.objects.all()
-        return {
-            'products': products,
-            'product_length': len(products) > 0
-        }
+#     def get_context_data(self, **kwargs):
+#         products = Product.objects.all()
+#         return {
+#             'products': products,
+#             'product_length': len(products) > 0
+#         }
     # def get(self,request):
     #     products = Product.objects.all()
     #     return render(request, 'product/product-page.html', {
@@ -24,31 +26,34 @@ class ProductPageView(ListView):
     #         'product_length': len(products) > 0
     #     })
 
+@login_required
+@admin_only
+def product_page(request):
+    products = Product.objects.all()
+    return render(request, 'product/product-page.html',{
+        'products': products,
+        "product_length": len(products) > 0
+    })
 
-# def product_page(request):
-#     products = Product.objects.all()
-#     return render(request, 'product/product-page.html',{
-#         'products': products,
-#         "product_length": len(products) > 0
-#     })
 
+# class CreateProductView(CreateView):
+#     """Class based view to create the product"""
+#     # def get(self,request):
+#     #     form = ProductForm()
+#     #     return render(request, 'product/product-form.html',{'form': form})
 
-class CreateProductView(CreateView):
-    """Class based view to create the product"""
-    # def get(self,request):
-    #     form = ProductForm()
-    #     return render(request, 'product/product-form.html',{'form': form})
+#     # def post(self,request):
+#     #     form = ProductForm(data=request.POST,files=request.FILES)
+#     #     if form.is_valid():
+#     #         form.save()
+#     #     return redirect('product_page')
+#     model = Product
+#     template_name = 'product/product-form.html'
+#     form_class = ProductForm
+#     success_url = reverse_lazy('product_page')
 
-    # def post(self,request):
-    #     form = ProductForm(data=request.POST,files=request.FILES)
-    #     if form.is_valid():
-    #         form.save()
-    #     return redirect('product_page')
-    model = Product
-    template_name = 'product/product-form.html'
-    form_class = ProductForm
-    success_url = reverse_lazy('product_page')
-
+@login_required
+@admin_only
 def post_product(request):
     """Method to add/create the product."""
     if request.method == 'POST':
@@ -61,6 +66,8 @@ def post_product(request):
     return render(request,'product/product-form.html',{'form': form})
 
 
+@login_required
+@admin_only
 def edit_product(request,product_id):
     "Method to edit the product data."
     product = Product.objects.get(id = product_id)
@@ -74,19 +81,22 @@ def edit_product(request,product_id):
     return render(request, "product/edit-product.html",{'form': form})
 
 
-class DeleteProductView(DeleteView):
-    """Class based views to delete the product"""
-    model = Product
-    success_url = reverse_lazy('product_page')
-    template_name = 'product/confirm_delete.html'
+# class DeleteProductView(DeleteView):
+#     """Class based views to delete the product"""
+#     model = Product
+#     success_url = reverse_lazy('product_page')
+#     template_name = 'product/confirm_delete.html'
 
-
+@login_required
+@admin_only
 def delete_product(request,product_id):
     product = Product.objects.get(id=product_id)
     product.delete()
     return redirect('product_page')
 
 
+@login_required
+@admin_only
 def get_all_cateogries(request):
     categories = Category.objects.all()
     return render(request, 'product/categories.html',{
@@ -97,7 +107,8 @@ def get_all_cateogries(request):
 
 # edit category
 
-
+@login_required
+@admin_only
 def delete_category(request,category_id):
     category = Category.objects.get(id=category_id)
     category.delete()
