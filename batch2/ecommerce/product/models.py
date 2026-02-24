@@ -1,6 +1,7 @@
 from django.db import models
 from product.form_validation import validate_less_than_0
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Category(models.Model):
@@ -25,6 +26,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+
+
 
 class LoginPractise(models.Model):
     email = models.EmailField()

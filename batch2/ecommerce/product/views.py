@@ -139,3 +139,12 @@ def form_practise(request):
     else:
         form = LoginForm()
     return render(request,'product/login-form.html',{'form': form})
+
+
+"""
+Four types of permission for every model
+Create => add_category
+update => change_category
+Read => view_category
+Delete => delete_category
+"""

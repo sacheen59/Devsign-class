@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from product.models import Product
+from .models import Cart
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from accounts.auth import user_only
@@ -21,5 +22,22 @@ def get_individual_product(request,product_id):
 
 @login_required
 @user_only
+def add_to_cart(request,product_id):
+    user = request.user
+    product = Product.objects.get(id=product_id)
+    cart = Cart.objects.create(user=user, product= product)
+    cart.save()
+    return redirect('cart-page')
+
+@login_required
+@user_only
 def cart_page(request):
-    return HttpResponse("This is cart page of authenticated user")
+    carts = Cart.objects.filter(user = request.user)
+    return render(request,'shop/cart-page.html',{'carts': carts,'cart_length': len(carts) > 0})
+
+@login_required
+@user_only
+def cart_delete(request,cart_id):
+    cart = Cart.objects.get(id=cart_id)
+    cart.delete()
+    return redirect('cart-page')

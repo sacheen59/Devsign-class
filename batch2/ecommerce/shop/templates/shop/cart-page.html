@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends "user-layout.html" %}
+
+{% block title%}
+User || Cart
+{% endblock %}
+
+{% block main-content %}
+    <div class="container my-5">
+
+      {% if cart_length %}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Product Image</th>
+            <th>Product Price</th>
+            <th>Product Description</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in carts %}
+          <tr>
+            <td>{{item.product.product_name}}</td>
+            <td>
+              <img
+                src="{{item.product.product_image.url}}"
+                alt="{{item.product.product_name}}"
+                height="100px"
+                width="100px"
+              />
+            </td>
+            <td>Rs {{item.product.product_price}}</td>
+            <td>{{item.product.product_description}}</td>
+            <td>{{item.product.category.category_name}}</td>
+            <td>
+              <a href="#" class="btn btn-success">Order now</a>
+              <a href="{% url 'delete-cart' item.id %}" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-container">
+        <h1 class="text-color">No Cart Items found.</h1>
+      </div>
+      {% endif %}
+    </div>
+
+{% endblock %}
+
