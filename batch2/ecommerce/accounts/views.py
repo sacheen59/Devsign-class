@@ -44,4 +44,4 @@ def logout_user(request):
     return redirect('home-page')
 
 def dashboard(request):
-    return HttpResponse("This is admin dashboard")
+    return render(request, 'dashboard/dashboard.html')
