@@ -2,26 +2,27 @@
 {% extends "user-layout.html" %}
 
 {% block title%}
-User || Cart
+User || My-Order
 {% endblock %}
 
 {% block main-content %}
     <div class="container my-5">
 
-      {% if cart_length %}
+      {% if order_length %}
       <table class="table table-bordered">
         <thead>
           <tr>
             <th>Product Name</th>
             <th>Product Image</th>
-            <th>Product Price</th>
-            <th>Product Description</th>
-            <th>Category</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Payment method</th>
+            <th>Payment Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {% for item in carts %}
+          {% for item in orders %}
           <tr>
             <td>{{item.product.product_name}}</td>
             <td>
@@ -32,12 +33,12 @@ User || Cart
                 width="100px"
               />
             </td>
-            <td>Rs {{item.product.product_price}}</td>
-            <td>{{item.product.product_description}}</td>
-            <td>{{item.product.category.category_name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>Rs {{item.total_price}}</td>
+            <td>{{item.get_payment_method_display}}</td>
+            <td>{{item.get_payment_status_display}}</td>
             <td>
-              <a href="{% url 'order' item.id item.product.id %}" class="btn btn-success">Order now</a>
-              <a href="{% url 'delete-cart' item.id %}" class="btn btn-danger">Delete</a>
+              <a href="#" class="btn btn-danger">Delete</a>
             </td>
           </tr>
           {% endfor %}
@@ -45,7 +46,7 @@ User || Cart
       </table>
       {% else %}
       <div class="empty-container">
-        <h1 class="text-color">No Cart Items found.</h1>
+        <h1 class="text-color">No Order Items found.</h1>
       </div>
       {% endif %}
     </div>

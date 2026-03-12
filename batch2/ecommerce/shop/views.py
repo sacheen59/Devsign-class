@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from product.models import Product
-from .models import Cart
-from django.http import HttpResponse
+from .models import Cart,Order
+from .forms import OrderForm
 from django.contrib.auth.decorators import login_required
 from accounts.auth import user_only
 
@@ -41,3 +41,44 @@ def cart_delete(request,cart_id):
     cart = Cart.objects.get(id=cart_id)
     cart.delete()
     return redirect('cart-page')
+
+
+@login_required
+@user_only
+def order(request,cart_id, product_id):
+    cart_item = Cart.objects.get(id=cart_id)
+    product = Product.objects.get(id = product_id)
+    user = request.user
+    if request.method == 'POST':
+       form = OrderForm(request.POST)
+       if form.is_valid():
+            data = form.cleaned_data
+            quantity=data['quantity']
+            # Order placed
+            order = Order.objects.create(
+                product=product,
+                user=user,
+                address=data['address'],
+                contact_no=data['contact_no'],
+                quantity=quantity,
+                total_price=quantity*product.product_price,
+            )
+            if order.payment_method == 'esewa':
+                # paid form esewa
+                # payment status = paid
+                pass
+
+            # cart deleted
+            cart_item.delete()
+            return redirect('order-page')
+    else:
+        form = OrderForm()
+    return render(request,'shop/order-form.html',{ 'form': form })
+
+
+@login_required
+@user_only
+def my_order_item(request):
+    user = request.user
+    order_items = Order.objects.filter(user=user)
+    return render(request,'shop/order-page.html', {'orders': order_items, 'order_length': len(order_items) > 0})
