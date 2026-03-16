@@ -5,13 +5,14 @@ from rest_framework import status
 from .models import Todo
 from api.serializers import TodoSerializer
 
+
 @api_view(['GET','POST'])
 def todos(request):
     if request.method == 'GET':
         todos = Todo.objects.all()
         serializer = TodoSerializer(todos, many=True)
         return Response(serializer.data)
-    
+
     elif request.method == 'POST':
         serializer = TodoSerializer(data=request.data)
         if serializer.is_valid():
