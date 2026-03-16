@@ -22,3 +22,14 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/",include('api.urls')),
 ]
+
+"""
+MVT => Model view template
+MVT => Model view template=data
+urls => endpoint (normal url , routers)
+forms => Serializer/Deserializer (lifecycle)
+Views => class based views, function based views, viewsets
+Permissions => different builtin permission + custom permission
+Pagination => Pagination of Django rest framework
+JSON format => Javascript object notation (lightweight fromat of commucating data), XML, TSON
+"""
