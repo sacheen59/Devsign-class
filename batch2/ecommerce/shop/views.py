@@ -67,6 +67,8 @@ def order(request,cart_id, product_id):
             )
             if order.payment_method == 'esewa':
               pass
+            
+            return redirect('order-page')
     else:
         form = OrderForm()
     return render(request,'shop/order-form.html',{ 'form': form })
