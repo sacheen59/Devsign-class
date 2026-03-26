@@ -54,6 +54,7 @@ def order(request,cart_id, product_id):
        if form.is_valid():
             data = form.cleaned_data
             quantity=data['quantity']
+            payment_method = data['payment_method']
             # Order placed
             order = Order.objects.create(
                 product=product,
@@ -62,15 +63,10 @@ def order(request,cart_id, product_id):
                 contact_no=data['contact_no'],
                 quantity=quantity,
                 total_price=quantity*product.product_price,
+                payment_method = payment_method
             )
             if order.payment_method == 'esewa':
-                # paid form esewa
-                # payment status = paid
-                pass
-
-            # cart deleted
-            cart_item.delete()
-            return redirect('order-page')
+              pass
     else:
         form = OrderForm()
     return render(request,'shop/order-form.html',{ 'form': form })

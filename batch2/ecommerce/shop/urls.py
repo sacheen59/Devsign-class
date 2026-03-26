@@ -9,7 +9,7 @@ urlpatterns = [
     path('cart/',views.cart_page,name="cart-page"),
     path('cart_delete/<int:cart_id>/',views.cart_delete,name='delete-cart'),
     path('order/<int:cart_id>/<int:product_id>/',views.order, name='order'),
-    path('order/mine/',views.my_order_item, name='order-page')
+    path('order/mine/',views.my_order_item, name='order-page'),
 ]
 
 #localhost:8000
