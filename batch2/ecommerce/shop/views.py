@@ -96,28 +96,29 @@ class EsewaView(View):
     def get(self,request,*args,**kwargs):
         o_id = request.GET.get('o_id')
         c_id = request.GET.get('c_id')
-        cart = Cart.objects.get(id=int(c_id))
-        order = Order.objects.get(id=int(o_id))
+        cart = Cart.objects.get(id = c_id)
+        order = Order.objects.get(id = o_id)
 
         uuid_val = uuid.uuid4()
 
-        secret_key = "8gBm/:&EnhH.1/q"
+        secret_key = '8gBm/:&EnhH.1/q'
         data_to_sign = f"total_amount={order.total_price},transaction_uuid={uuid_val},product_code=EPAYTEST"
-        signature = genSha256(secret_key,data_to_sign)
+        result = genSha256(secret_key,data_to_sign)
 
         data = {
             'amount': order.product.product_price,
             'total_amount': order.total_price,
             'transaction_uuid': uuid_val,
             'product_code': 'EPAYTEST',
-            'signature': signature
+            'signature': result
         }
 
-        return render(request,'shop/esewaform.html',{
+        return render(request,"shop/esewaform.html",{
             'order':order,
             'cart': cart,
             'data': data
         })
+
 
 
 
@@ -130,8 +131,18 @@ def esewa_verify(request,order_id,cart_id):
     cart = Cart.objects.get(id=cart_id)
 
     if map_data.get('status') == 'COMPLETE':
-        order.payment_method = 'paid'
+        order.payment_method = 'esewa'
+        order.payment_status = 'paid'
         order.save()
         cart.delete()
 
+    return redirect('order-page')
+
+
+@login_required
+@user_only
+def delete_order(request,order_id):
+    user = request.user
+    order_item = Order.objects.filter(id=order_id, user=user)
+    order_item.delete()
     return redirect('order-page')
