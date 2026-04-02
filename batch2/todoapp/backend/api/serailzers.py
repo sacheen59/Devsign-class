@@ -10,3 +10,9 @@ class TaskSerializer(serializers.Serializer):
         # task = validated_data.get('task')
         # is_completed = validated_data.get('is_completed')
         return Task.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.task = validated_data.get('task', instance.task)
+        instance.is_completed = validated_data.get('is_completed',instance.is_completed)
+        instance.save()
+        return instance
