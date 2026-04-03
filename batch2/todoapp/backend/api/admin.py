@@ -1,7 +1,9 @@
 from django.contrib import admin
-from api.models import Task
+from api.models import Task,CustomUser
 
 # Register your models here.
+
+admin.site.register(CustomUser)
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['id','task','is_completed','created_at','updated_at']

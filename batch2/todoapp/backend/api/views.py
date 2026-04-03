@@ -6,6 +6,15 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 
 
+def get_object_or_error(model_name, id, serializer):
+    try:
+        data = model_name.objects.get(id=id)
+    except model_name.DoesNotExists:
+        return Response({'message': 'no data found'}, status=404)
+    return data
+
+
+
 @api_view(['GET','POST'])
 def list_todo(request):
     if request.method == 'GET':
@@ -25,11 +34,8 @@ def list_todo(request):
 def todo_detail(request,task_id):
     if request.method == 'GET':
         """This method is use to retrive the single data."""
-        try:
-            todo = Task.objects.get(id=task_id)
-        except Task.DoesNotExist:
-            return Response({'message':'Task with given id doesnot exist.'}, status=404)
-        serializer = TaskSerializer(todo)
+        data = get_object_or_error(Task,task_id)
+        serializer = TaskSerializer(data)
         return Response(serializer.data)
 
     if request.method == 'PUT':
