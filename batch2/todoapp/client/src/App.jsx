@@ -1,44 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const App = () => {
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [enteredText, setEnteredText] = useState("");
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      task: "Learn Django for 20 minutes.",
-      isCompleted: true,
-    },
-    {
-      id: 2,
-      task: "Run for 10 minutes.",
-      isCompleted: false,
-    },
-    {
-      id: 3,
-      task: "Explore React.",
-      isCompleted: false,
-    },
-    {
-      id: 4,
-      task: "Go and buy a coffee.",
-      isCompleted: true,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
+
+  async function fetchTodos() {
+    try {
+      const response = await fetch("http://localhost:8000/api/list/");
+      const data = await response.json();
+      console.log("Fetched todos:", data);
+      if (response.status === 200) {
+        setTodos(data);
+      }
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   function toggleForm() {
     setIsOpenForm((prevState) => !prevState);
   }
 
-  function submitTaskHandler() {
-    setTodos((prevState) => [
-      ...prevState,
-      { id: Math.random(), task: enteredText, isCompleted: false },
-    ]);
+  async function submitTaskHandler() {
+    try {
+      const response = await fetch("http://localhost:8000/api/list/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ task: enteredText }),
+      });
+      if (response.status === 201 || response.status === 200) {
+        const newTask = await response.json();
+        setTodos((prevState) => [...prevState, newTask]);
+        setEnteredText("");
+      }
+    } catch (error) {
+      console.log("Error submitting task:", error);
+    }
   }
 
-  function deleteTask(id) {
-    setTodos((prevState) => prevState.filter((todo) => todo.id !== id));
+  async function deleteTask(id) {
+    try {
+      const response = await fetch(`http://localhost:8000/api/detail/${id}/`, {
+        method: "DELETE",
+      });
+      if (response.status === 204 || response.status === 200) {
+        setTodos((prevState) => prevState.filter((todo) => todo.id !== id));
+      }
+      else{
+        console.log("Failed to delete task. Status code:", response.status);
+      }
+    } catch (error) {
+      console.log("Error deleting task:", error);
+    }
   }
 
   return (
@@ -69,30 +89,34 @@ const App = () => {
             </div>
           )}
           <div className="p-2 my-4">
-            <ul className="list-unstyled">
-              {todos.map((todo) => (
-                <li
-                  key={todo.id}
-                  className="d-flex justify-content-between align-items-center shadow p-2 rounded"
-                >
-                  <div className="d-flex align-items-center gap-2">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      checked={todo.isCompleted && true}
-                    />
-                    {/* todo content */}
-                    <span>{todo.task}</span>
-                  </div>
+            {todos.length > 0 ? (
+              <ul className="list-unstyled">
+                {todos.map((todo) => (
+                  <li
+                    key={todo.id}
+                    className="d-flex justify-content-between align-items-center shadow p-2 rounded"
+                  >
+                    <div className="d-flex align-items-center gap-2">
+                      {/* todo content */}
+                      <span>{todo.task}</span>
+                    </div>
 
-                  {/* delete and edit button */}
-                  <div className="d-flex gap-2">
-                    <button className="btn btn-primary">Edit</button>
-                    <button className="btn btn-danger" onClick={() => deleteTask(todo.id)}>Delete</button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                    {/* delete and edit button */}
+                    <div className="d-flex gap-2">
+                      <button className="btn btn-primary">Edit</button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteTask(todo.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-center">No tasks added yet.</p>
+            )}
           </div>
         </div>
       </div>

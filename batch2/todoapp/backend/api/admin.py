@@ -6,8 +6,7 @@ from api.models import Task,CustomUser
 admin.site.register(CustomUser)
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['id','task','is_completed','created_at','updated_at']
-    list_editable = ['is_completed']
+    list_display = ['id','task','created_at','updated_at']
     list_filter = ['created_at']
     # prepopulated_fields = {'slug': ['task',]}
 
