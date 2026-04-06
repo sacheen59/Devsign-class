@@ -6,10 +6,11 @@ class TaskSerializer(serializers.Serializer):
     task = serializers.CharField()
 
     def to_internal_value(self, data):
-        print("To internal value called")
         return super().to_internal_value(data)
 
+
     def validate(self, attrs):
+        print("validated data ==> ", attrs)
         print("To validate method called")
         return super().validate(attrs)
 
