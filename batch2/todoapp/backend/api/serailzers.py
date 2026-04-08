@@ -11,6 +11,7 @@ type of validation:
 class TaskSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     task = serializers.CharField()
+    description = serializers.CharField()
 
     def to_internal_value(self, data):
         """It is use to deserialize the data"""

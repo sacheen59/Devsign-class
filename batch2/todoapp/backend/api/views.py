@@ -6,14 +6,6 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 
 
-def get_object_or_error(model_name, id, serializer):
-    try:
-        data = model_name.objects.get(id=id)
-    except model_name.DoesNotExists:
-        return Response({'message': 'no data found'}, status=404)
-    return data
-
-
 
 @api_view(['GET','POST'])
 def list_todo(request):
@@ -30,12 +22,15 @@ def list_todo(request):
         return Response(serializer.errors, status=400)
 
 
-@api_view(['GET','PUT','DELETE'])
+@api_view(['GET','PUT','DELETE','PATCH'])
 def todo_detail(request,task_id):
     if request.method == 'GET':
         """This method is use to retrive the single data."""
-        data = get_object_or_error(Task,task_id)
-        serializer = TaskSerializer(data)
+        try:
+            task = Task.objects.get(id = task_id)
+        except Task.DoesNotExist:
+            return Response({'message': "Task with given id doesnot exists"},status=404)
+        serializer = TaskSerializer(task)
         return Response(serializer.data)
 
     if request.method == 'PUT':
@@ -45,6 +40,17 @@ def todo_detail(request,task_id):
         except Task.DoesNotExist:
             return Response({'message':'Task with given id doesnot exist.'}, status=404)
         serializer = TaskSerializer(todo, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    if request.method == 'PATCH':
+        try:
+            todo = Task.objects.get(id=task_id)
+        except Task.DoesNotExist:
+            return Response({'message':'Task with given id doesnot exist.'}, status=404)
+        serializer = TaskSerializer(todo, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
